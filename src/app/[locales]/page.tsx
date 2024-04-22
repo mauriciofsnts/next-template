@@ -1,7 +1,7 @@
 import LocaleSwitcher from "@/components/language-switcher";
-import { useBear } from "@/store/use-bear";
 import { useTranslations } from "next-intl";
 import BearComponent from "./(components)/bear";
+import Abilities from "./(components)/abilities";
 
 export default function Home() {
   const t = useTranslations("global");
@@ -13,6 +13,7 @@ export default function Home() {
       </div>
       <h1 className="text-lg text-red-500">{t("hello")}</h1>
       <BearComponent />
+      <Abilities />
     </main>
   );
 }
