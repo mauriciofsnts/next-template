@@ -28,6 +28,7 @@ const nextAuthOptions = {
               username: credentials!.username,
               password: credentials!.password,
               client_id: process.env.KEYCLOAK_ID!,
+              client_secret: process.env.KEYCLOAK_SECRET!,
               scope: "openid",
             }),
           }
