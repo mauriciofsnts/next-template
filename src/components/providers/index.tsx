@@ -1,9 +1,9 @@
 import React from "react";
 import AuthProvider from "./auth-provider";
 
-type Props = {
+interface Props {
   children: React.ReactNode;
-};
+}
 
 const Providers = ({ children }: Props) => {
   return <AuthProvider>{children}</AuthProvider>;
