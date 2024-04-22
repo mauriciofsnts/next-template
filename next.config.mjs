@@ -1,8 +1,11 @@
 import withNextIntl from "next-intl/plugin";
 
-const nextIntlConfig = withNextIntl();
+const withNextIntlConfig = withNextIntl("./src/lib/i18n.ts");
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  // Hides source maps from generated client bundles
+  productionBrowserSourceMaps: false,
+};
 
-export default nextIntlConfig(nextConfig);
+export default withNextIntlConfig(nextConfig);
