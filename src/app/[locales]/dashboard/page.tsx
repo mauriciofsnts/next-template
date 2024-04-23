@@ -1,4 +1,4 @@
-import LocaleSwitcher from "@/components/language-switcher";
+import LocaleSwitcher from "@/components/layout/language-switcher";
 import { useTranslations } from "next-intl";
 import BearComponent from "./(components)/bear";
 import Abilities from "./(components)/abilities";

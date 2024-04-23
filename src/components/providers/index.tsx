@@ -11,7 +11,12 @@ interface Props {
 const Providers = ({ children }: Props) => {
   return (
     <ReactQueryClientProvider>
-      <ThemeProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="dark"
+        enableSystem
+        disableTransitionOnChange
+      >
         <AuthProvider>
           <IntlProvider>{children}</IntlProvider>
         </AuthProvider>
