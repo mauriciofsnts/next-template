@@ -16,8 +16,6 @@ const handler = async (data: InputType): Promise<OutputType> => {
       data: data,
     });
 
-    console.log(`response: `, response);
-
     item = response.body;
   } catch (error) {
     return {

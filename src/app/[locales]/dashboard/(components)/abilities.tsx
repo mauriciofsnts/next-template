@@ -8,7 +8,7 @@ const Abilities = () => {
   return (
     <div>
       <span>
-        {ability?.can("show", "Staff")
+        {ability?.can("show", "admin")
           ? "You can see Staff"
           : "You can't see Staff"}
       </span>
