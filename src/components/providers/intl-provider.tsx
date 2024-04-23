@@ -5,7 +5,7 @@ interface Props {
   children: ReactNode;
 }
 
-const IntlProvider = ({ children }: Props) => {
+export const IntlProvider = ({ children }: Props) => {
   const messages = useMessages();
   return (
     <NextIntlClientProvider messages={messages}>
@@ -13,5 +13,3 @@ const IntlProvider = ({ children }: Props) => {
     </NextIntlClientProvider>
   );
 };
-
-export default IntlProvider;
