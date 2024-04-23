@@ -9,7 +9,7 @@ export const locales = [
 ] as const;
 
 export const localeCodes = locales.map((locale) => locale.code);
-export const defaultLocale = locales[0].code;
+export const defaultLocale = locales[1].code;
 
 export default getRequestConfig(async ({ locale }) => {
   if (!localeCodes.includes(locale as Locale)) notFound();

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { signIn } from "next-auth/react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -30,6 +32,7 @@ const defaultValues: UserFormValue = {
 };
 
 const UserAuthForm = () => {
+  const t = useTranslations("auth.login");
   const [loading, setLoading] = useState(false);
 
   const form = useForm<UserFormValue>({
@@ -38,7 +41,11 @@ const UserAuthForm = () => {
   });
 
   const onSubmit = async (data: UserFormValue) => {
-    console.log(data);
+    signIn("kyc-custom-credentials", {
+      username: data.email,
+      password: data.password,
+      callbackUrl: "/dashboard",
+    });
   };
 
   return (
@@ -53,11 +60,11 @@ const UserAuthForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t("email")}</FormLabel>
                 <FormControl>
                   <Input
                     type="email"
-                    placeholder="Enter your email..."
+                    placeholder={t("emailHint")}
                     disabled={loading}
                     {...field}
                   />
@@ -72,7 +79,7 @@ const UserAuthForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>{t("password")}</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
@@ -91,20 +98,10 @@ const UserAuthForm = () => {
             className="ml-auto w-full mt-5"
             type="submit"
           >
-            <Link href="/dashboard">Continue With Email</Link>
+            <Link href="/dashboard">{t("login")}</Link>
           </Button>
         </form>
       </Form>
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
     </>
   );
 };
