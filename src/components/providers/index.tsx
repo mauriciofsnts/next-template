@@ -1,10 +1,10 @@
-import React from "react";
+import { ReactNode } from "react";
 import AuthProvider from "./auth-provider";
 import IntlProvider from "./intl-provider";
 import { ReactQueryClientProvider } from "./react-query-client-provider";
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const Providers = ({ children }: Props) => {

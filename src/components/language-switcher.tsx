@@ -1,5 +1,5 @@
 "use client";
-import { locales } from "@/lib/locales";
+import { locales } from "@/lib/i18n";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 

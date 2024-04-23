@@ -1,9 +1,10 @@
-import React from "react";
+import { ReactNode } from "react";
 import { NextIntlClientProvider, useMessages } from "next-intl";
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
+
 const IntlProvider = ({ children }: Props) => {
   const messages = useMessages();
   return (
