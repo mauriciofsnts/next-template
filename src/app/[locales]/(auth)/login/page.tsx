@@ -10,7 +10,7 @@ function LoginPage() {
     signIn("kyc-custom-credentials", {
       username: username,
       password: password,
-      callbackUrl: "/app",
+      callbackUrl: "/dashboard",
     });
   };
 

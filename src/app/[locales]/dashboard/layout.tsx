@@ -1,6 +1,6 @@
 "use client";
-import { useSession } from "next-auth/react";
 import React from "react";
+import { useSession } from "next-auth/react";
 
 export default function MainLayout({
   children,
