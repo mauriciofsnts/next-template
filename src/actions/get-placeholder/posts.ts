@@ -5,12 +5,13 @@ import { Placeholder } from "../create-placeholder/types";
 const LIST_POSTS_QUERY_KEY = ["posts"];
 
 export function useListPosts() {
+  const id = '12'
   return useQuery({
-    queryKey: LIST_POSTS_QUERY_KEY,
+    queryKey: [LIST_POSTS_QUERY_KEY, id],
     queryFn: () => {
       return client.request<null, Placeholder>({
         method: "get",
-        url: "/posts/12",
+        url: `/posts/${id}`,
       });
     },
   });
