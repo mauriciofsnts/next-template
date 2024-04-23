@@ -1,6 +1,7 @@
 import React from "react";
 import AuthProvider from "./auth-provider";
 import IntlProvider from "./intl-provider";
+import { ReactQueryClientProvider } from "./react-query-client-provider";
 
 interface Props {
   children: React.ReactNode;
@@ -8,9 +9,11 @@ interface Props {
 
 const Providers = ({ children }: Props) => {
   return (
-    <AuthProvider>
-      <IntlProvider>{children}</IntlProvider>
-    </AuthProvider>
+    <ReactQueryClientProvider>
+      <AuthProvider>
+        <IntlProvider>{children}</IntlProvider>
+      </AuthProvider>
+    </ReactQueryClientProvider>
   );
 };
 
