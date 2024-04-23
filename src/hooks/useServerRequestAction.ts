@@ -1,26 +1,28 @@
 import { ActionState, FieldErrors } from "@/lib/create-safe-action";
 import { useCallback, useState } from "react";
 
-type Action<T, O> = (data: T) => Promise<ActionState<T, O>>;
+type Action<TInput, TOutput> = (
+  data: TInput
+) => Promise<ActionState<TInput, TOutput>>;
 
-interface ServerRequestActionOptions<O> {
-  onSuccess?: (data: O) => void;
+interface ServerRequestActionOptions<TOutput> {
+  onSuccess?: (data: TOutput) => void;
   onError?: (error: string) => void;
   onCompleted?: () => void;
 }
 
-export const useServerRequestAction = <T, O>(
-  action: Action<T, O>,
-  options: ServerRequestActionOptions<O> = {}
+export const useServerRequestAction = <TInput, TOutput>(
+  action: Action<TInput, TOutput>,
+  options: ServerRequestActionOptions<TOutput> = {}
 ) => {
   const [fieldErrors, setFieldErrors] =
-    useState<FieldErrors<T | undefined>>(undefined);
+    useState<FieldErrors<TInput | undefined>>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [data, setData] = useState<O | undefined>(undefined);
+  const [data, setData] = useState<TOutput | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
   const execute = useCallback(
-    async (input: T) => {
+    async (input: TInput) => {
       setLoading(true);
 
       try {
