@@ -1,5 +1,19 @@
 {
   "global": {
     "hello": "Hello world!"
+  },
+  "auth": {
+    "login": {
+      "email": "Email",
+      "emailHint": "Enter your email...",
+      "password": "Password",
+      "login": "Login",
+      "loginToAccount": "Login to your account",
+      "loginToAccountHint": "Enter your email and password below to continue",
+      "byClickingContinue": "By clicking continue, you agree to our",
+      "termsOfService": "Terms of Service",
+      "privacyPolicy": "Privacy Policy",
+      "and": "and"
+    }
   }
 }
