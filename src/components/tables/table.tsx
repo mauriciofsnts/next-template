@@ -44,9 +44,6 @@ interface DataTableProps<TData, TValue> {
   totalUsers: number;
   pageSizeOptions?: number[];
   pageCount: number;
-  searchParams?: {
-    [key: string]: string | string[] | undefined;
-  };
 }
 
 function DataGrid<TData, TValue>({
@@ -60,15 +57,18 @@ function DataGrid<TData, TValue>({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const page = searchParams?.get("page") ?? "1";
+  const page = searchParams.get("page") ?? "1";
   const pageAsNumber = Number(page);
   const fallbackPage =
     isNaN(pageAsNumber) || pageAsNumber < 1 ? 1 : pageAsNumber;
 
-  const limit = searchParams?.get("limit") ?? "10";
-  const limitAsNumber = Number(limit);
+  console.log(`page: `, page);
+  console.log(`fallbackPage: `, fallbackPage);
 
-  const limitPerPage = searchParams?.get("limitPerPage") ?? "10";
+  // const limit = searchParams.get("limit") ?? "10";
+  // const limitAsNumber = Number(limit);
+
+  const limitPerPage = searchParams.get("limitPerPage") ?? "10";
   const limitPerPageAsNumber = Number(limitPerPage);
   const fallbackPerPage = isNaN(limitPerPageAsNumber)
     ? 10
@@ -84,9 +84,9 @@ function DataGrid<TData, TValue>({
    * @param params - An object containing key-value pairs for the parameters.
    * @returns The generated query string.
    */
-  const createQueryString = useCallback(
+  const createQueryStringUrl = useCallback(
     (params: Record<string, string | number | null>) => {
-      const newSearchParams = new URLSearchParams(searchParams?.toString());
+      const newSearchParams = new URLSearchParams(searchParams.toString());
 
       for (const [key, value] of Object.entries(params)) {
         if (value === null) {
@@ -96,9 +96,9 @@ function DataGrid<TData, TValue>({
         }
       }
 
-      return newSearchParams.toString();
+      return `${pathname}?${newSearchParams.toString()}`;
     },
-    [searchParams]
+    [pathname, searchParams]
   );
 
   useEffect(() => {
@@ -110,10 +110,7 @@ function DataGrid<TData, TValue>({
      * @param {number} pageSize - The number of items per page.
      * @returns {string} The constructed URL with query parameters.
      */
-    const url = `${pathname}?${createQueryString({
-      page: pageIndex + 1,
-      limit: pageSize,
-    })}`;
+    const url = createQueryStringUrl({ page: pageIndex + 1, limit: pageSize });
 
     router.push(url, { scroll: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -132,36 +129,27 @@ function DataGrid<TData, TValue>({
     manualFiltering: true,
   });
 
-  const searchValue = table.getColumn(searchKey)?.getFilterValue() as string;
+  const searchValue =
+    (table.getColumn(searchKey)?.getFilterValue() as string) ?? "";
+  const [hasBeenSearched, setHasBeenSearched] = useState<boolean>(false);
 
   useEffect(() => {
-    if (searchValue?.length > 0) {
+    if (!hasBeenSearched) return;
+    if (searchValue.length > 0) {
       router.push(
-        `${pathname}?${createQueryString({
-          page: null,
-          limit: null,
-          search: searchValue,
-        })}`,
-        {
-          scroll: false,
-        }
+        createQueryStringUrl({ page: null, limit: null, search: searchValue }),
+        { scroll: false }
       );
     }
+
     if (searchValue?.length === 0 || searchValue === undefined) {
       router.push(
-        `${pathname}?${createQueryString({
-          page: null,
-          limit: null,
-          search: null,
-        })}`,
-        {
-          scroll: false,
-        }
+        createQueryStringUrl({ page: null, limit: null, search: null }),
+        { scroll: false }
       );
     }
 
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue]);
 
@@ -170,9 +158,10 @@ function DataGrid<TData, TValue>({
       <Input
         placeholder={`Search ${searchKey}...`}
         value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
-        onChange={(event) =>
-          table.getColumn(searchKey)?.setFilterValue(event.target.value)
-        }
+        onChange={(event) => {
+          setHasBeenSearched(true);
+          table.getColumn(searchKey)?.setFilterValue(event.target.value);
+        }}
         className="w-full md:max-w-sm"
       />
 
