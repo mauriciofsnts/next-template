@@ -8,7 +8,6 @@ export default function TeamPage() {
   const { limit, offset, page, query } = useSearchParamsPagination();
 
   const [members, setMembers] = useState<Member[]>([]);
-  const [totalUsers, setTotalUsers] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +26,6 @@ export default function TeamPage() {
 
       // Update state or do any other necessary operations with the fetched data
       setMembers(members);
-      setTotalUsers(totalUsers);
       setPageCount(pageCount);
     };
 
@@ -43,7 +41,6 @@ export default function TeamPage() {
       <DataGrid
         searchKey="email"
         columns={columns}
-        totalUsers={totalUsers}
         data={members}
         loading={loading}
         pageCount={pageCount}
