@@ -3,7 +3,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 
-type Member = {
+export type Member = {
   id: number;
   first_name: string;
   last_name: string;

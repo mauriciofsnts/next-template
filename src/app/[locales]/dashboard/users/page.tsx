@@ -1,35 +1,51 @@
-import React from "react";
+"use client";
 import DataGrid from "@/components/tables/table";
-import { columns } from "@/components/tables/users-table/columns";
+import { Member, columns } from "@/components/tables/users-table/columns";
+import useSearchParamsPagination from "@/hooks/useSearchParamsPagination";
+import { useEffect, useState } from "react";
 
-type ParamsProps = {
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+export default function TeamPage() {
+  const { limit, offset, page, query } = useSearchParamsPagination();
 
-export default async function TeamPage({ searchParams }: ParamsProps) {
-  console.log(searchParams);
-  const page = Number(searchParams.page) || 1;
-  const pageLimit = Number(searchParams.limit) || 10;
-  const country = searchParams.search || null;
-  const offset = (page - 1) * pageLimit;
+  const [members, setMembers] = useState<Member[]>([]);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [pageCount, setPageCount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-  const res = await fetch(
-    `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${pageLimit}` +
-      (country ? `&search=${country}` : "")
-  );
-  const response = await res.json();
-  const totalUsers = response.total_users; //1000
-  const pageCount = Math.ceil(totalUsers / pageLimit);
-  const members: any[] = response.users;
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+
+      const res = await fetch(
+        `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${limit}` +
+          (query ? `&search=${query}` : "")
+      );
+      const response = await res.json();
+      const totalUsers = response.total_users; //1000
+      const pageCount = Math.ceil(totalUsers / limit);
+      const members: Member[] = response.users;
+
+      // Update state or do any other necessary operations with the fetched data
+      setMembers(members);
+      setTotalUsers(totalUsers);
+      setPageCount(pageCount);
+    };
+
+    fetchData();
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, [limit, offset, page, query]);
 
   return (
     <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
       <DataGrid
         searchKey="email"
-        pageNo={page}
         columns={columns}
         totalUsers={totalUsers}
         data={members}
+        loading={loading}
         pageCount={pageCount}
       />
     </div>

@@ -34,16 +34,16 @@ import {
   ArrowRightToLine,
   ChevronLeftIcon,
   ChevronRightIcon,
+  Loader2,
 } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchKey: string;
-  pageNo: number;
-  totalUsers: number;
   pageSizeOptions?: number[];
   pageCount: number;
+  loading: boolean;
 }
 
 function DataGrid<TData, TValue>({
@@ -51,6 +51,7 @@ function DataGrid<TData, TValue>({
   data,
   searchKey,
   pageCount,
+  loading = false,
   pageSizeOptions = [10, 20, 30, 40, 50],
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
@@ -61,9 +62,6 @@ function DataGrid<TData, TValue>({
   const pageAsNumber = Number(page);
   const fallbackPage =
     isNaN(pageAsNumber) || pageAsNumber < 1 ? 1 : pageAsNumber;
-
-  console.log(`page: `, page);
-  console.log(`fallbackPage: `, fallbackPage);
 
   // const limit = searchParams.get("limit") ?? "10";
   // const limitAsNumber = Number(limit);
@@ -127,6 +125,8 @@ function DataGrid<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     manualPagination: true,
     manualFiltering: true,
+    enableRowSelection: true,
+    getRowId: (row) => (row as any).id,
   });
 
   const searchValue =
@@ -185,7 +185,13 @@ function DataGrid<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="relative">
+            {loading && (
+              <div className="bg-gray-600/5 absolute w-full h-full flex items-center justify-center">
+                <Loader2 className="h-4 w-4 animate-spin" />
+              </div>
+            )}
+
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -220,8 +226,7 @@ function DataGrid<TData, TValue>({
       <div className="flex flex-col gap-2 sm:flex-row items-center justify-end space-x-2 py-4">
         <div className="flex items-center justify-between w-full">
           <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {Object.keys(table.getState().rowSelection).length} row(s) selected.
           </div>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
             <div className="flex items-center space-x-2">
@@ -231,6 +236,7 @@ function DataGrid<TData, TValue>({
               <Select
                 value={`${table.getState().pagination.pageSize}`}
                 onValueChange={(value: any) => table.setPageSize(Number(value))}
+                disabled={loading}
               >
                 <SelectTrigger className="h-8 w-[70px]">
                   <SelectValue
@@ -259,7 +265,7 @@ function DataGrid<TData, TValue>({
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
               onClick={() => table.setPageIndex(0)}
-              disabled={!table.getCanPreviousPage()}
+              disabled={!table.getCanPreviousPage() || loading}
             >
               <ArrowLeftToLine className="h-4 w-4" aria-hidden="true" />
             </Button>
@@ -268,7 +274,7 @@ function DataGrid<TData, TValue>({
               variant="outline"
               className="h-8 w-8 p-0"
               onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
+              disabled={!table.getCanPreviousPage() || loading}
             >
               <ChevronLeftIcon className="h-4 w-4" aria-hidden="true" />
             </Button>
@@ -277,7 +283,7 @@ function DataGrid<TData, TValue>({
               variant="outline"
               className="h-8 w-8 p-0"
               onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
+              disabled={!table.getCanNextPage() || loading}
             >
               <ChevronRightIcon className="h-4 w-4" aria-hidden="true" />
             </Button>
@@ -286,7 +292,7 @@ function DataGrid<TData, TValue>({
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-              disabled={!table.getCanNextPage()}
+              disabled={!table.getCanNextPage() || loading}
             >
               <ArrowRightToLine className="h-4 w-4" aria-hidden="true" />
             </Button>
