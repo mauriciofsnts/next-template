@@ -17,9 +17,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
+import { useTranslations } from "next-intl";
 
 export type NavItem = {
-  title: string;
+  title: MenuKeys;
   href: string;
   Icon: React.ReactNode;
   label: string;
@@ -30,46 +31,46 @@ const iconClasses = "mr-2 h-4 w-4";
 
 export const navItems: NavItem[] = [
   {
-    title: "Dashboard",
+    title: "dashboard",
     href: "/dashboard",
     Icon: <LayoutDashboard className={iconClasses} />,
     label: "Dashboard",
   },
   {
-    title: "Template",
+    title: "template",
     href: "/dashboard/template",
     Icon: <Megaphone className={iconClasses} />,
-    label: "template",
+    label: "Template",
     children: [
       {
-        title: "Office",
+        title: "office",
         href: "/office",
-        label: "office",
+        label: "Office",
       },
       {
-        title: "Home",
+        title: "home",
         href: "/home",
-        label: "home",
+        label: "Home",
       },
     ],
   },
   {
-    title: "Team",
+    title: "team",
     href: "/dashboard/team",
     Icon: <SquareUser className={iconClasses} />,
-    label: "team",
+    label: "Team",
   },
   {
-    title: "Profile",
+    title: "profile",
     href: "/dashboard/profile",
     Icon: <UserCog className={iconClasses} />,
-    label: "profile",
+    label: "Profile",
   },
   {
-    title: "Settings",
+    title: "settings",
     href: "/dashboard/settings",
     Icon: <Settings className={iconClasses} />,
-    label: "settings",
+    label: "Settings",
   },
 ];
 
@@ -79,15 +80,13 @@ interface DashboardNavProps {
 }
 
 const DashboardNav: React.FC<DashboardNavProps> = ({ items, setOpen }) => {
-  const pathName = usePathname();
+  const t = useTranslations("menu");
 
   return (
     <nav className="grid items-start gap-2">
       {items.map((item, i) => {
-        const { Icon, title, children, href } = item;
-
+        const { Icon, title, children, href, label } = item;
         const hasChildren = children && children.length > 0;
-
         return (
           <div key={i}>
             {hasChildren ? (
@@ -96,12 +95,12 @@ const DashboardNav: React.FC<DashboardNavProps> = ({ items, setOpen }) => {
                   <AccordionTrigger
                     className={cn(
                       buttonVariants({ size: "sm", variant: "ghost" }),
-                      "justify-between"
+                      "justify-between hover:no-underline"
                     )}
                   >
                     <div className="flex items-center justify-start">
                       {Icon}
-                      {title}
+                      {t(title)}
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
@@ -115,7 +114,7 @@ const DashboardNav: React.FC<DashboardNavProps> = ({ items, setOpen }) => {
                             "pl-5 justify-start"
                           )}
                         >
-                          {child.title}
+                          {t(child.title)}
                         </Link>
                       ))}
                     </div>
@@ -128,11 +127,11 @@ const DashboardNav: React.FC<DashboardNavProps> = ({ items, setOpen }) => {
                   href={href}
                   className={cn(
                     buttonVariants({ size: "sm", variant: "ghost" }),
-                    "justify-start"
+                    "justify-start w-full"
                   )}
                 >
                   {Icon}
-                  {title}
+                  {t(title)}
                 </Link>
               )
             )}

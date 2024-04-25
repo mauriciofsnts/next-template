@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   ColumnDef,
   PaginationState,
+  StringOrTemplateHeader,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -36,6 +37,7 @@ import {
   ChevronRightIcon,
   Loader2,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -57,6 +59,7 @@ function DataGrid<TData, TValue>({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const t = useTranslations("table");
 
   const page = searchParams.get("page") ?? "1";
   const pageAsNumber = Number(page);
@@ -156,7 +159,7 @@ function DataGrid<TData, TValue>({
   return (
     <>
       <Input
-        placeholder={`Search ${searchKey}...`}
+        placeholder={t("searchFor", { searchTerm: searchKey })}
         value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
         onChange={(event) => {
           setHasBeenSearched(true);
@@ -187,9 +190,11 @@ function DataGrid<TData, TValue>({
           </TableHeader>
           <TableBody className="relative">
             {loading && (
-              <div className="bg-gray-600/5 absolute w-full h-full flex items-center justify-center">
-                <Loader2 className="h-4 w-4 animate-spin" />
-              </div>
+              <tr className="bg-gray-600/5 absolute w-full h-full flex items-center justify-center">
+                <td>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                </td>
+              </tr>
             )}
 
             {table.getRowModel().rows?.length ? (
@@ -214,7 +219,7 @@ function DataGrid<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {t("noResults")}
                 </TableCell>
               </TableRow>
             )}
@@ -226,12 +231,14 @@ function DataGrid<TData, TValue>({
       <div className="flex flex-col gap-2 sm:flex-row items-center justify-end space-x-2 py-4">
         <div className="flex items-center justify-between w-full">
           <div className="flex-1 text-sm text-muted-foreground">
-            {Object.keys(table.getState().rowSelection).length} row(s) selected.
+            {t("rowsSelected", {
+              count: Object.keys(table.getState().rowSelection).length,
+            })}
           </div>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
             <div className="flex items-center space-x-2">
               <p className="whitespace-nowrap text-sm font-medium">
-                Rows per page
+                {t("rowsPerPage")}
               </p>
               <Select
                 value={`${table.getState().pagination.pageSize}`}
@@ -255,13 +262,15 @@ function DataGrid<TData, TValue>({
           </div>
         </div>
         <div className="flex items-center justify-between sm:justify-end gap-2 w-full">
-          <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-            Page {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getPageCount()}
+          <div className="flex w-[120px] items-center justify-center text-sm font-medium">
+            {t("pageCount", {
+              currentPage: table.getState().pagination.pageIndex + 1,
+              totalPages: table.getPageCount(),
+            })}
           </div>
           <div className="flex items-center space-x-2">
             <Button
-              aria-label="Go to first page"
+              aria-label={t("goToFirstPage")}
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
               onClick={() => table.setPageIndex(0)}
@@ -270,7 +279,7 @@ function DataGrid<TData, TValue>({
               <ArrowLeftToLine className="h-4 w-4" aria-hidden="true" />
             </Button>
             <Button
-              aria-label="Go to previous page"
+              aria-label={t("goToPreviousPage")}
               variant="outline"
               className="h-8 w-8 p-0"
               onClick={() => table.previousPage()}
@@ -279,7 +288,7 @@ function DataGrid<TData, TValue>({
               <ChevronLeftIcon className="h-4 w-4" aria-hidden="true" />
             </Button>
             <Button
-              aria-label="Go to next page"
+              aria-label={t("goToNextPage")}
               variant="outline"
               className="h-8 w-8 p-0"
               onClick={() => table.nextPage()}
@@ -288,7 +297,7 @@ function DataGrid<TData, TValue>({
               <ChevronRightIcon className="h-4 w-4" aria-hidden="true" />
             </Button>
             <Button
-              aria-label="Go to last page"
+              aria-label={t("goToLastPage")}
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}

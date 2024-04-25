@@ -2,6 +2,33 @@
   "global": {
     "hello": "Hello world!"
   },
+  "table": {
+    "noResults": "No results found",
+    "rowsSelected": "{count} rows(s) selected.",
+    "rowsPerPage": "Rows per page",
+    "goToFirstPage": "Go to first page",
+    "goToLastPage": "Go to last page",
+    "goToNextPage": "Go to next page",
+    "goToPreviousPage": "Go to previous page",
+    "pageCount": "Page {currentPage} of {totalPages}",
+    "searchFor": "Search for {searchTerm}"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "profile": "Profile",
+    "settings": "Settings",
+    "team": "Team",
+    "office": "Office",
+    "home": "Home",
+    "template": "Template"
+  },
+  "settings": {
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System",
+    "toggleTheme": "Toggle theme"
+  },
   "auth": {
     "login": {
       "email": "Email",

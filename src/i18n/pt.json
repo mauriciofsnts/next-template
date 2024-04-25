@@ -2,6 +2,36 @@
   "global": {
     "hello": "Ola mundo"
   },
+  "table": {
+    "noResults": "Nenhum resultado encontrado",
+    "rowsSelected": "{count} linha(s) selecionada(s).",
+    "rowsPerPage": "Linhas por página",
+    "goToFirstPage": "Ir para a primeira página",
+    "goToLastPage": "Ir para a última página",
+    "goToNextPage": "Ir para a próxima página",
+    "goToPreviousPage": "Ir para a página anterior",
+    "pageCount": "Página {currentPage} de {totalPages}",
+    "searchFor": "Pesquisar por {searchTerm}"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "users": "Usuários",
+    "profile": "Perfil",
+    "settings": "Configurações",
+    "team": "Equipe",
+    "office": "Escritório",
+    "home": "Início",
+    "template": "Modelo"
+  },
+  "settings": {
+    "dark": "Escuro",
+    "light": "Claro",
+    "system": "Sistema",
+    "toggleTheme": "Mudar tema",
+    "profile": "Perfil",
+    "settings": "Configurações",
+    "logout": "Sair"
+  },
   "auth": {
     "login": {
       "email": "Email",
