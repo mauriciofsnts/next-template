@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -27,7 +28,7 @@ const formSchema = z.object({
 type UserFormValue = z.infer<typeof formSchema>;
 
 const defaultValues: UserFormValue = {
-  email: "john.doe@email.com",
+  email: "",
   password: "",
 };
 
@@ -44,7 +45,7 @@ const UserAuthForm = () => {
     signIn("kyc-custom-credentials", {
       username: data.email,
       password: data.password,
-      callbackUrl: "/dashboard",
+      callbackUrl: DEFAULT_LOGIN_REDIRECT,
     });
   };
 

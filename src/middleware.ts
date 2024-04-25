@@ -7,6 +7,7 @@ const nextIntlMiddleware = createMiddleware({
   locales: localeCodes,
   defaultLocale,
   localePrefix: "never",
+  localeDetection: true,
 });
 
 export function middleware(req: NextRequest): NextResponse {
