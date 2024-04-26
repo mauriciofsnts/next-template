@@ -5,7 +5,7 @@ import { Placeholder } from "../create-placeholder/types";
 const LIST_POSTS_QUERY_KEY = ["posts"];
 
 export function useListPosts() {
-  const id = '12'
+  const id = "12";
   return useQuery({
     queryKey: [LIST_POSTS_QUERY_KEY, id],
     queryFn: () => {

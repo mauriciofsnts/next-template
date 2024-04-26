@@ -31,5 +31,5 @@ const handler = async (data: InputType): Promise<OutputType> => {
 
 export const createPlaceholder = createSafeAction(
   CreatePlaceholderRequest,
-  handler
+  handler,
 );

@@ -99,7 +99,7 @@ function DataGrid<TData, TValue>({
 
       return `${pathname}?${newSearchParams.toString()}`;
     },
-    [pathname, searchParams]
+    [pathname, searchParams],
   );
 
   useEffect(() => {
@@ -141,14 +141,14 @@ function DataGrid<TData, TValue>({
     if (searchValue.length > 0) {
       router.push(
         createQueryStringUrl({ page: null, limit: null, search: searchValue }),
-        { scroll: false }
+        { scroll: false },
       );
     }
 
     if (searchValue?.length === 0 || searchValue === undefined) {
       router.push(
         createQueryStringUrl({ page: null, limit: null, search: null }),
-        { scroll: false }
+        { scroll: false },
       );
     }
 
@@ -180,7 +180,7 @@ function DataGrid<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -207,7 +207,7 @@ function DataGrid<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

@@ -36,7 +36,7 @@ const nextAuthOptions = {
               client_secret: process.env.KEYCLOAK_SECRET!,
               scope: "openid",
             }),
-          }
+          },
         );
 
         const tokens = await res.json();

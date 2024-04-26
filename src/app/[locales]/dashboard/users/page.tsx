@@ -17,7 +17,7 @@ export default function TeamPage() {
 
       const res = await fetch(
         `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${limit}` +
-          (query ? `&search=${query}` : "")
+          (query ? `&search=${query}` : ""),
       );
       const response = await res.json();
       const totalUsers = response.total_users; //1000

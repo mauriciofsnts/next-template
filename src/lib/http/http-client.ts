@@ -6,7 +6,7 @@ export type RequestData<TInput> = AxiosRequestConfig<TInput> & {
 
 export interface HttpClient {
   request: <TInput = unknown, TResponse = unknown>(
-    data: RequestData<TInput>
+    data: RequestData<TInput>,
   ) => Promise<HttpReponse<TResponse>>;
 }
 

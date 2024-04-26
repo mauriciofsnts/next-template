@@ -2,7 +2,7 @@ import { ActionState, FieldErrors } from "@/lib/create-safe-action";
 import { useCallback, useState } from "react";
 
 type Action<TInput, TOutput> = (
-  data: TInput
+  data: TInput,
 ) => Promise<ActionState<TInput, TOutput>>;
 
 interface ServerRequestActionOptions<TOutput> {
@@ -13,7 +13,7 @@ interface ServerRequestActionOptions<TOutput> {
 
 export const useServerRequestAction = <TInput, TOutput>(
   action: Action<TInput, TOutput>,
-  options: ServerRequestActionOptions<TOutput> = {}
+  options: ServerRequestActionOptions<TOutput> = {},
 ) => {
   const [fieldErrors, setFieldErrors] =
     useState<FieldErrors<TInput | undefined>>(undefined);
@@ -47,7 +47,7 @@ export const useServerRequestAction = <TInput, TOutput>(
         options.onCompleted?.();
       }
     },
-    [action, options]
+    [action, options],
   );
 
   return { fieldErrors, error, data, loading, execute };

@@ -12,7 +12,7 @@ export type ActionState<T, O> = {
 
 export const createSafeAction = <T, O>(
   schema: z.Schema<T>,
-  handler: (validationData: T) => Promise<ActionState<T, O>>
+  handler: (validationData: T) => Promise<ActionState<T, O>>,
 ) => {
   return async (data: T): Promise<ActionState<T, O>> => {
     const result = schema.safeParse(data);

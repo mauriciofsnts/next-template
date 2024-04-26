@@ -1,0 +1,8 @@
+# Ignore artifacts:
+.next
+
+# Ignore all files in the build/ directory
+build
+
+# Ignore shadcn components
+src/components/ui/*.tsx

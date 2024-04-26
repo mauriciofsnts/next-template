@@ -95,7 +95,7 @@ const DashboardNav: React.FC<DashboardNavProps> = ({ items, setOpen }) => {
                   <AccordionTrigger
                     className={cn(
                       buttonVariants({ size: "sm", variant: "ghost" }),
-                      "justify-between hover:no-underline"
+                      "justify-between hover:no-underline",
                     )}
                   >
                     <div className="flex items-center justify-start">
@@ -111,7 +111,7 @@ const DashboardNav: React.FC<DashboardNavProps> = ({ items, setOpen }) => {
                           href={child.href || "/"}
                           className={cn(
                             buttonVariants({ size: "sm", variant: "ghost" }),
-                            "pl-5 justify-start"
+                            "pl-5 justify-start",
                           )}
                         >
                           {t(child.title)}
@@ -127,7 +127,7 @@ const DashboardNav: React.FC<DashboardNavProps> = ({ items, setOpen }) => {
                   href={href}
                   className={cn(
                     buttonVariants({ size: "sm", variant: "ghost" }),
-                    "justify-start w-full"
+                    "justify-start w-full",
                   )}
                 >
                   {Icon}

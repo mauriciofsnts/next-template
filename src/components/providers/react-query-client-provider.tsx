@@ -17,7 +17,7 @@ export const ReactQueryClientProvider = ({ children }: Props) => {
             retry: false,
           },
         },
-      })
+      }),
   );
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
