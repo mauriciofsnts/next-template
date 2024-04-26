@@ -13,9 +13,12 @@ import {
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useTranslations } from "next-intl";
+import { signOut } from "next-auth/react";
 
 const UserNav = () => {
   const t = useTranslations("settings");
+
+  const handleLogout = () => signOut({ callbackUrl: "/login" });
 
   return (
     <DropdownMenu>
@@ -45,7 +48,9 @@ const UserNav = () => {
           <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>{t("logout")}</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
+          {t("logout")}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

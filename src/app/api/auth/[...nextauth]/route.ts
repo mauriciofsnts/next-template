@@ -53,6 +53,9 @@ const nextAuthOptions = {
       },
     }),
   ],
+  events: {
+    async signOut({ token }) {},
+  },
   callbacks: {
     async signIn() {
       return true;
