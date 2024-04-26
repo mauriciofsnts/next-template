@@ -27,7 +27,10 @@
     "dark": "Dark",
     "light": "Light",
     "system": "System",
-    "toggleTheme": "Toggle theme"
+    "toggleTheme": "Toggle theme",
+    "profile": "Profile",
+    "logout": "Logout",
+    "settings": "Settings"
   },
   "auth": {
     "login": {

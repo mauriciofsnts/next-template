@@ -1,12 +1,17 @@
 import NextAuth, { AuthOptions, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { isBefore } from "date-fns";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 
-type KeycloakPayload = JwtPayload & { email: string };
+type KeycloakPayload = JwtPayload & {
+  email: string;
+  preferred_username: string;
+  email_verified: boolean;
+};
 
 const nextAuthOptions = {
   pages: {
-    signIn: "/login", // path the page here
+    signIn: "/login",
     error: "/error",
   },
   providers: [
@@ -41,7 +46,7 @@ const nextAuthOptions = {
             accessToken: tokens.access_token,
             refreshToken: tokens.refresh_token,
             idToken: tokens.id_token,
-          } as any as User;
+          } as User;
         } else {
           return null;
         }
@@ -49,32 +54,43 @@ const nextAuthOptions = {
     }),
   ],
   callbacks: {
+    async signIn() {
+      return true;
+    },
+
     async jwt({ token, user }) {
       if (user) {
-        token.accessToken = (user as any).accessToken;
-        token.refreshToken = (user as any).refreshToken;
-        token.idToken = (user as any).idToken;
+        token.accessToken = user?.accessToken;
+        token.refreshToken = user?.refreshToken;
+        token.idToken = user?.idToken;
       }
 
-      // Return previous token if the access token has not expired yet
-      // if (Date.now() < token.accessTokenExpires) {
-      return token;
-      // }
+      const parsedTokenExp = new Date((token as any)?.exp);
 
-      // Access token has expired, try to update it
-      // return refreshAccessToken(token);
+      // If token is expired, return do refresh token
+      if (isBefore(new Date(), parsedTokenExp)) {
+        // Access token has expired, try to update it
+        // const updatedToken = await refreshAccessToken(token);
+        return token;
+      }
+
+      return token;
     },
     async session({ session, token }) {
       const { idToken, accessToken } = token;
-      const payload = jwtDecode<KeycloakPayload>(idToken as string);
+      const payload = jwtDecode<KeycloakPayload>(String(idToken));
 
-      (session as any).accessToken = accessToken;
-      (session as any).user = {
-        ...session.user,
-        email: payload.email,
+      const sessionWithUser = {
+        ...session,
+        accessToken,
+        user: {
+          email: payload.email,
+          name: payload.preferred_username,
+          emailVerified: payload.email_verified,
+        },
       };
 
-      return session;
+      return sessionWithUser;
     },
   },
 } as AuthOptions;
