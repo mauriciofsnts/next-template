@@ -1,5 +1,3 @@
-MAURICIO FERRAZ DOS SANTOS Dados da empresa para prestação de serviço
-
 # Boilerplate and Starter for Next.js 14+, Tailwind CSS, and TypeScript.
 
 🚀 Boilerplate and Starter for Next.js with App Router support, Tailwind CSS, and TypeScript
