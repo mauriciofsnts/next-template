@@ -2,15 +2,15 @@ import axios, { AxiosRequestHeaders } from "axios";
 import { HttpClient, HttpReponse, RequestData } from "./http-client";
 
 const axiosClient = axios.create({
-  baseURL: "https://jsonplaceholder.typicode.com",
+  baseURL: process.env.BACKEND_URL!,
 });
 
 export class ApiClient implements HttpClient {
   public async request<Input, Output>(
-    data: RequestData<Input>,
+    data: RequestData<Input>
   ): Promise<HttpReponse<Output>> {
     const headers = this.applyDefaultHeaders(
-      data.headers as AxiosRequestHeaders,
+      data.headers as AxiosRequestHeaders
     );
 
     try {
@@ -27,6 +27,7 @@ export class ApiClient implements HttpClient {
 
   private applyDefaultHeaders(headers: AxiosRequestHeaders) {
     // get token from local storage
+    // !todo implement token storage
     const token = "blah";
 
     return {
