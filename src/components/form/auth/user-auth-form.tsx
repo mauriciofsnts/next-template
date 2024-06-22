@@ -99,7 +99,7 @@ const UserAuthForm = () => {
             className="ml-auto w-full mt-5"
             type="submit"
           >
-            <Link href="/dashboard">{t("login")}</Link>
+            {t("login")}
           </Button>
         </form>
       </Form>

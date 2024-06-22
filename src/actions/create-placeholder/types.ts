@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { CreatePlaceholderRequest } from "./schema";
-import { ActionState } from "@/lib/create-safe-action";
+import { ActionState } from "@/lib/http/http-definitions";
 
 export type InputType = z.infer<typeof CreatePlaceholderRequest>;
 export type OutputType = ActionState<InputType, Placeholder>;

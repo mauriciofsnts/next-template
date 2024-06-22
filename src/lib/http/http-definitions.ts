@@ -1,12 +1,13 @@
-import { AxiosRequestConfig, AxiosRequestHeaders } from "axios";
-
-export type RequestData<TInput> = AxiosRequestConfig<TInput> & {
-  headers?: AxiosRequestHeaders;
+export type RequestData<TInput> = {
+  url: string;
+  method: string;
+  headers?: HeadersInit;
+  body?: TInput;
 };
 
 export interface HttpClient {
   request: <TInput = unknown, TResponse = unknown>(
-    data: RequestData<TInput>,
+    data: RequestData<TInput>
   ) => Promise<HttpReponse<TResponse>>;
 }
 
@@ -28,7 +29,15 @@ export type HttpReponse<T> = {
 };
 
 export type HttpError = {
-  statusCode: HttpStatusCode;
+  code: string;
   error: string;
   message: string;
+  detailedMedssage: string;
+  status: HttpStatusCode;
+};
+
+export type ActionState<T, O> = {
+  error?: HttpError;
+  data?: O;
+  status?: number;
 };
